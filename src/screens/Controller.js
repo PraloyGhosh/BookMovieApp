@@ -5,7 +5,7 @@ import Header from "../common/header/Header";
 const Controller = () => {
     return(
         <div>
-            <Header />
+            <Header entry="Login"/>
         </div>
     );
 }
