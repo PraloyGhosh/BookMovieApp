@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../../common/header/Header';
 import './Home.css';
 import GridList from '@material-ui/core/GridList';
@@ -29,7 +30,7 @@ const styles = (theme) =>(
 )
 
 
-const Home = ({classes}) => {
+const Home = ({classes , baseUrl}) => {
     
     const [UpcomingMovies, setUpcomingMovies] = useState([]);
     const [releasedMovies,setReleasedMovies] = useState([]);
@@ -42,7 +43,7 @@ const Home = ({classes}) => {
     const [endDate,setEndDate] = useState("");
 
     useEffect(() => {
-        fetch('http://localhost:8085/api/v1/movies?page=1&limit=7', {
+        fetch(`${baseUrl}movies?page=1&limit=7`, {
             method: 'GET',
             headers:{
                 "Accept": "application/json;charset=UTF-8",
@@ -96,7 +97,7 @@ const Home = ({classes}) => {
     }
 
     const applyButtonHandler = () => {
-        let baseUrl = 'http://localhost:8085/api/v1/movies?page=1%20&limit=10';
+        let baseUrl = 'http://localhost:8085/api/v1/movies?page=1%20&limit=30';
 
         if(movieName)
             baseUrl= `${baseUrl}&title=${movieName}`
@@ -152,14 +153,17 @@ const Home = ({classes}) => {
 
             <div className="flex-container">
                 <div className="released-movies">
-                <GridList cols={4} cellHeight={350} spacing={40}>
+                <GridList cols={4} cellHeight={350} spacing={60}>
                     {
                         releasedMovies.map(movie => (
                             <GridListTile 
                                 key={movie.id}
                                 onClick={detailsHandler}
                             >
-                                <img src={movie.poster_url} alt={movie.title} className="image"/>
+                                
+                                <Link to={`/movie/${movie.id}`}>
+                                    <img src={movie.poster_url} alt={movie.title} className="image"/>
+                                </Link>
                                 <GridListTileBar 
                                     title={movie.title}
                                     subtitle={`Release Date ${movie.release_date}`}
@@ -172,7 +176,7 @@ const Home = ({classes}) => {
                 <div className="filter">
                     <Card>
                         <CardContent>
-                            <Typography variant="subheading" component="span" className={classes.cardHeading}>
+                            <Typography variant="subheading"  className={classes.cardHeading}>
                                 FIND MOVIES BY:
                             </Typography>
 

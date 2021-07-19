@@ -12,12 +12,12 @@
 }
 
 .released-movies {
-    width: 76%;
+    flex: 76;
     margin: 16px;
 }
 
 .filter {
-    width: 24%;
+    flex: 24;
     margin: 16px;
 }
 

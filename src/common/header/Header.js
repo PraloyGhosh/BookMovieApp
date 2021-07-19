@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Header.css";
 import logo from "../../assets/logo.svg";
 import PropTypes from "prop-types";
@@ -13,6 +13,12 @@ const styles = {
     btn: {
         margin: ' auto auto auto 16px',
     },
+    dispNone: {
+        display: 'none'
+    },
+    dispBlock: {
+        display: 'inlineBlock'
+    }
 }
 
 const customStyles = {
@@ -34,6 +40,11 @@ const Header = (props) => {
     const [modalIsOpen,setIsOpen] = useState(false);
     const [selectedTab, setSelectedTab] = useState(0);
     const [entry,setEntry] = useState("Login");
+
+    useEffect(() => {
+        if(window.sessionStorage.getItem('access-token'))
+            setEntry("Logout");
+    },[])
 
     function openModal() {
         if(window.sessionStorage.length !== 0){
@@ -79,6 +90,17 @@ const Header = (props) => {
         }
     }
 
+    const bookShowButtonHandler = () => {
+        if(window.sessionStorage.getItem('access-token')) {
+            props.history.push(`/bookshow/${props.id}`)
+        }
+        else{
+            setIsOpen(true);
+            setSelectedTab(0);
+        }
+
+    }
+
     return(
         <header className="header">
             <img src={logo} alt="logo" className="logo"/>
@@ -87,7 +109,8 @@ const Header = (props) => {
                       variant="contained" 
                       color="primary" 
                       name="Book Show" 
-                      className={classes.btn}
+                      className={props.showBtn?classes.dispBlock : classes.dispNone}
+                      onClick={bookShowButtonHandler}
                     >
                        Book Show
                     </Button>

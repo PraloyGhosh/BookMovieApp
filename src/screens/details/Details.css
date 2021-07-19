@@ -1,0 +1,12 @@
+.flex-container {
+    display: flex;
+
+}
+
+.side-container {
+    flex: 2;
+}
+
+.middle-container {
+    flex: 6;
+}
